@@ -12,7 +12,7 @@ This automation script prepares a Gentoo kernel and initramfs suitable to boot f
 * It will **setup a root password and start the SSH daemon**
 
 It lets you take control of the PXE host easily:
-* **You can change the setup script** to adjust your needs and rebuild the whole PXE stack by simply re-runing the script
+* **You can change the files/setup.start script** to adjust your needs at boot and rebuild the whole PXE stack by simply re-runing the build.sh script
 * Your SSH public key will already be present on the machine so you can connect without password to your PXE host
 
 ## What will happen when I boot ?
