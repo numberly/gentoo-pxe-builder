@@ -1,0 +1,9 @@
+*.iso
+*.gz
+*.igz
+*.squashfs
+mnt/
+igz/
+kernel/
+iso/
+gentoo

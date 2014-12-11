@@ -1,0 +1,35 @@
+--- init.orig	2012-05-21 16:14:35.000000000 +0400
++++ init	2012-05-21 18:14:43.000000000 +0400
+@@ -368,10 +368,10 @@
+ 		[ ! -e "${NEW_ROOT}/dev/tty1" ] && mknod "${NEW_ROOT}/dev/tty1" c 4 1
+ 	fi
+ 
+-	if [ "${REAL_ROOT}" != "/dev/nfs" ] && [ "${LOOPTYPE}" != "sgimips" ]
+-	then
+-		bootstrapCD
+-	fi
++#	if [ "${REAL_ROOT}" != "/dev/nfs" ] && [ "${LOOPTYPE}" != "sgimips" ]
++#	then
++#		bootstrapCD
++#	fi
+ 
+ 	if [ "${REAL_ROOT}" = '' ]
+ 	then
+@@ -456,7 +456,7 @@
+ 		else
+ 			bad_msg "Block device ${REAL_ROOT} is not a valid root device..."
+ 			REAL_ROOT=""
+-			got_good_root=0
++			got_good_root=1
+ 		fi
+ 	done
+ 
+@@ -520,7 +520,7 @@
+ 	[ -z "${LOOP}" ] && find_loop
+ 	[ -z "${LOOPTYPE}" ] && find_looptype
+ 
+-	cache_cd_contents
++	#cache_cd_contents
+ 
+ 	# If encrypted, find key and mount, otherwise mount as usual
+ 	if [ -n "${CRYPT_ROOT}" ]

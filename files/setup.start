@@ -1,0 +1,32 @@
+#!/bin/bash
+
+ROOT_PASSWD="gentoo-root"
+
+echo "root:${ROOT_PASSWD}" | /usr/sbin/chpasswd
+sleep 1
+
+/etc/init.d/sshd start
+sleep 1
+
+watch -n 5 -g -- ip addr
+sleep 1
+
+rm /etc/motd
+
+cat > /root/.bash_profile << EOF
+ip addr
+
+echo ""
+echo "Real interfaces names:"
+
+EOF
+
+echo 'for nic in $(ls /sys/class/net/ | egrep -iv "^(bond|lo|vlan)"); do' >> /root/.bash_profile
+echo '	((udevadm test-builtin net_id /sys/class/net/${nic} 2>/dev/null | grep ID_NET_NAME_ONBOARD) || (udevadm test-builtin net_id /sys/class/net/${nic} 2>/dev/null | grep ID_NET_NAME_PATH)) | cut -d"=" -f2' >> /root/.bash_profile
+echo 'done' >> /root/.bash_profile
+
+cat >> /root/.bash_profile << EOF
+
+echo ""
+echo "SSH is up, root password is ${ROOT_PASSWD}"
+EOF
