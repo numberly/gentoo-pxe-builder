@@ -11,7 +11,7 @@ mkdir -p iso
 pushd iso
 	base_url="${MIRROR}/releases/${ARCH}/autobuilds"
 
-	latest_iso=$(curl "${base_url}/latest-iso.txt" 2>/dev/null | grep -v '#')
+	latest_iso=$(curl "${base_url}/latest-iso.txt" 2>/dev/null | grep -v '#' | cut -d " " -f 1 | head -1)
 	iso=$(basename "${latest_iso}")
 
 	wget -nc "${base_url}/${latest_iso}" || die "Could not download iso"
