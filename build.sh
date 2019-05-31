@@ -24,7 +24,7 @@ popd
 mkdir mnt
 sudo mount -o loop iso/${iso} mnt/
 
-cp mnt/isolinux/gentoo .
+cp mnt/boot/gentoo .
 
 mkdir squashmnt squash
 sudo mount -t squashfs -o loop mnt/image.squashfs squashmnt/
@@ -45,7 +45,7 @@ sudo rm -rf squash
 
 mkdir igz
 pushd igz
-	xzcat ../mnt/isolinux/gentoo.igz | sudo cpio -idv &>/dev/null
+	xzcat ../mnt/boot/gentoo.igz | sudo cpio -idv &>/dev/null
 
 	patch < ../files/init.livecd.patch
 
