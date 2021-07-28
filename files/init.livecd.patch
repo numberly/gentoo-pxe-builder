@@ -1,27 +1,5 @@
 --- init.orig	2016-09-13 18:24:06.109694040 +0200
 +++ init	2016-09-13 18:26:14.278481509 +0200
-@@ -452,9 +452,9 @@
- 		CHROOT=${NEW_ROOT}
- 	fi
- 
--	if [ /dev/nfs != "$REAL_ROOT" ] && [ sgimips != "$LOOPTYPE" ] && [ 1 != "$aufs" ]; then
--		bootstrapCD
--	fi
-+#	if [ /dev/nfs != "$REAL_ROOT" ] && [ sgimips != "$LOOPTYPE" ] && [ 1 != "$aufs" ]; then
-+#		bootstrapCD
-+#	fi
- 
- 	if [ "${REAL_ROOT}" = '' ]
- 	then
-@@ -588,7 +588,7 @@
- 		else
- 			bad_msg "Block device ${REAL_ROOT} is not a valid root device..."
- 			REAL_ROOT=""
--			got_good_root=0
-+			got_good_root=1
- 		fi
- 	done
- 
 @@ -667,7 +667,7 @@
  	[ -z "${LOOP}" ] && find_loop
  	[ -z "${LOOPTYPE}" ] && find_looptype

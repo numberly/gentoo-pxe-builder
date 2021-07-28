@@ -47,18 +47,17 @@ mkdir igz
 pushd igz
 	xzcat ../mnt/boot/gentoo.igz | sudo cpio -idv &>/dev/null
 
-	patch < ../files/init.livecd.patch
+	sudo patch < ../files/init.livecd.patch
 
 	sudo mkdir -p mnt/cdrom
 	sudo mv ../image.squashfs mnt/cdrom/
 
-	find . -print | cpio -o -H newc | gzip -9 -c - > ../gentoo.igz
+	find . -print | sudo cpio -o -H newc | sudo gzip -9 -c - > ../gentoo.igz
 popd
 
 sudo rm -rf igz
 sudo umount mnt && rmdir mnt
 
-clear
 echo "All done:"
 echo "---------"
 echo "  - PXE kernel file : gentoo"
