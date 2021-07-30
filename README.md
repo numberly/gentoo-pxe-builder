@@ -29,10 +29,8 @@ It lets you take control of the PXE host easily:
 
 * The `cpio` command from `app-arch/cpio`
 * The `gpg` command from `app-crypt/gnupg`
-* The `unsquashfs` and `mksquashfs` command from `sys-fs/squashfs-tools`
-* The `sudo` command from `app-admin/sudo`
+* The `xz` command from `app-arch/xz-utils`
 * The `isoinfo` command from `app-cdr/cdrtools`
-* Your current user must be a sudoer with the right to execute any command
 * You must have imported the 'Gentoo Linux Release Engineering (Automated Weekly Release Key)' GPG public key in your keyring `gpg --locate-key releng@gentoo.org`
 
 ## Environment variables and defaults
@@ -47,8 +45,8 @@ The default SSH root password is `gentoo-root`. This is the list of accepted env
 * Install `sys-boot/syslinux` as it contains the necessary files:
 
 ```
-$ sudo cp /usr/share/syslinux/ldlinux.c32 /pxe/
-$ sudo cp /usr/share/syslinux/pxelinux.0 /pxe/
+# cp /usr/share/syslinux/ldlinux.c32 /pxe/
+# cp /usr/share/syslinux/pxelinux.0 /pxe/
 ```
 
 * Create the `/pxe/pxelinux.cfg/` directory
