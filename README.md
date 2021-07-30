@@ -29,11 +29,11 @@ It lets you take control of the PXE host easily:
 
 * The `cpio` command from `app-arch/cpio`
 * The `gpg` command from `app-crypt/gnupg`
-* The `mksquashfs` command from `sys-fs/squashfs-tools`
+* The `unsquashfs` and `mksquashfs` command from `sys-fs/squashfs-tools`
 * The `sudo` command from `app-admin/sudo`
-* The `xzcat` command from `app-arch/xz-utils`
+* The `isoinfo` command from `app-cdr/cdrtools`
 * Your current user must be a sudoer with the right to execute any command
-* You must have imported the 'Gentoo Linux Release Engineering (Automated Weekly Release Key)' GPG public key in your keyring
+* You must have imported the 'Gentoo Linux Release Engineering (Automated Weekly Release Key)' GPG public key in your keyring `gpg --locate-key releng@gentoo.org`
 
 ## Environment variables and defaults
 The default SSH root password is `gentoo-root`. This is the list of accepted environment variables:
@@ -59,5 +59,5 @@ default Gentoo
 
 label Gentoo
 kernel /gentoo_pxe/gentoo
-append initrd=/gentoo_pxe/gentoo.igz root=/dev/ram0 init=/linuxrc loop=/image.squashfs looptype=squashfs cdroot=1 real_root=/dev/sda
+append initrd=/gentoo_pxe/gentoo.igz root=/dev/ram0 init=/linuxrc loop=/image.squashfs looptype=squashfs cdroot
 ```
