@@ -1,20 +1,22 @@
+# Hack to replace cdupdate function
 #https://github.com/gentoo/genkernel/blob/369cfa98f72675a285ec98439e9054ab57b234c9/defaults/initrd.scripts#L2469-L2491
 # called from
 #https://github.com/gentoo/genkernel/blob/369cfa98f72675a285ec98439e9054ab57b234c9/defaults/linuxrc#L9
 
 cdupdate() {
+    good_msg "cdupdate from initrd.splash hack"
     if [ "${CDROOT}" = '1' ]
     then
 	cdupdate_path=''
 	for p in /${NEW_ROOT}/${CDROOT_PATH}/ /${CDROOT_PATH}/
 	do
-	    [ -x "${p}/cdupdate.sh" ] && cdupdate_path="${p}/cdupdate.sh" && break
+	    [ -x "${p}cdupdate.sh" ] && cdupdate_path="${p}cdupdate.sh" && break
 	done
 
 	if [ -n "${cdupdate_path}" ]
 	then
 	    good_msg "Running cdupdate.sh (${cdupdate_path})"
-	    run ${cdupdate_path}
+	    run . ${cdupdate_path}
 	    if [ "$?" != '0' ]
 	    then
 		bad_msg "Executing cdupdate.sh failed!"
