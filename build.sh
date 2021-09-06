@@ -21,15 +21,13 @@ pushd iso
 	gpg --verify "${iso}.DIGESTS.asc" || die "Insecure digests"
 	echo "${sha512_digests}" | sha512sum -c || die "Checksum validation failed"
 popd
-mkdir mnt
-sudo mount -o loop iso/${iso} mnt/
+iso=iso/${iso}
+isoinfo -R -i ${iso} -X -find -path /boot/gentoo && mv -vf boot/gentoo .
+isoinfo -R -i ${iso} -X -find -path /image.squashfs
+isoinfo -R -i ${iso} -X -find -path /boot/gentoo.igz
 
-cp mnt/boot/gentoo .
-
-mkdir squashmnt squash
-sudo mount -t squashfs -o loop mnt/image.squashfs squashmnt/
-sudo cp -a squashmnt/* squash/
-sudo umount squashmnt/ && rmdir squashmnt
+sudo unsquashfs -d squash -f image.squashfs
+rm image.squashfs
 
 sudo cp files/setup.start squash/etc/local.d/
 sudo chmod +x squash/etc/local.d/setup.start
@@ -43,20 +41,10 @@ fi
 sudo mksquashfs squash/ image.squashfs
 sudo rm -rf squash
 
-mkdir igz
-pushd igz
-	xzcat ../mnt/boot/gentoo.igz | sudo cpio -idv &>/dev/null
-
-	sudo patch < ../files/init.livecd.patch
-
-	sudo mkdir -p mnt/cdrom
-	sudo mv ../image.squashfs mnt/cdrom/
-
-	find . -print | sudo cpio -o -H newc | sudo gzip -9 -c - > ../gentoo.igz
-popd
-
-sudo rm -rf igz
-sudo umount mnt && rmdir mnt
+(cat boot/gentoo.igz; (echo image.squashfs | cpio -H newc -o)) > gentoo.igz
+sudo rm image.squashfs
+rm boot/gentoo.igz
+rmdir boot
 
 echo "All done:"
 echo "---------"
