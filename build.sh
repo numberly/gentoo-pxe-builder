@@ -15,10 +15,10 @@ pushd iso
 	iso=$(basename "${latest_iso}")
 
 	wget -nc "${base_url}/${latest_iso}" || die "Could not download iso"
-	wget -nc "${base_url}/${latest_iso}.DIGESTS.asc" || die "Could not download digests"
+	wget -nc "${base_url}/${latest_iso}.DIGESTS" || die "Could not download digests"
 	wget -nc "${base_url}/${latest_iso}.CONTENTS.gz" || die "Could not download contents"
-	sha512_digests=$(grep -A1 SHA512 "${iso}.DIGESTS.asc" | grep -v '^--')
-	gpg --verify "${iso}.DIGESTS.asc" || die "Insecure digests"
+	sha512_digests=$(grep -A1 SHA512 "${iso}.DIGESTS" | grep -v '^--')
+	gpg --verify "${iso}.DIGESTS" || die "Insecure digests"
 	echo "${sha512_digests}" | sha512sum -c || die "Checksum validation failed"
 popd
 iso=iso/${iso}
