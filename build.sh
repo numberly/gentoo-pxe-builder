@@ -25,26 +25,18 @@ iso=iso/${iso}
 isoinfo -R -i ${iso} -X -find -path /boot/gentoo && mv -vf boot/gentoo .
 isoinfo -R -i ${iso} -X -find -path /image.squashfs
 isoinfo -R -i ${iso} -X -find -path /boot/gentoo.igz
-
-sudo unsquashfs -d squash -f image.squashfs
-rm image.squashfs
-
-sudo cp files/setup.start squash/etc/local.d/
-sudo chmod +x squash/etc/local.d/setup.start
-
-sudo mkdir -p squash/root/.ssh
-if [ -f "${SSH_KEY_PATH}" ]; then
-	sudo cp "${SSH_KEY_PATH}" squash/root/.ssh/authorized_keys
-	sudo chmod 600 squash/root/.ssh/authorized_keys
-fi
-
-sudo mksquashfs squash/ image.squashfs
-sudo rm -rf squash
-
 (cat boot/gentoo.igz; (echo image.squashfs | cpio -H newc -o)) > gentoo.igz
-sudo rm image.squashfs
+rm image.squashfs
 rm boot/gentoo.igz
 rmdir boot
+
+[ -f "${SSH_KEY_PATH}" ] && cp "${SSH_KEY_PATH}" files/authorized_keys
+# append cdupdate.sh that do the online modification and other needed files
+pushd files
+	chmod a+x cdupdate.sh
+	find . -print | cpio -H newc -o | xz --check=crc32 -vT0 >> ../gentoo.igz
+	[ -f authorized_keys ] && rm authorized_keys
+popd
 
 echo "All done:"
 echo "---------"
